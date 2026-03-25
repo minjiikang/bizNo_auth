@@ -200,7 +200,7 @@
       </div>
      
 
-      <button type="button" class="btn" id="submitBtn">조회</button>
+      <button type="button" class="btn" id="submitBtn">사업자번호 인증</button>
 
       <div id="message" class="message"></div>
 
@@ -298,7 +298,7 @@
 
     function setLoading(isLoading) {
       submitBtn.disabled = isLoading;
-      submitBtn.textContent = isLoading ? "확인 중..." : "인증";
+      submitBtn.textContent = isLoading ? "확인 중..." : "인증 완료";
       if (isLoading) {
         submitBtn.classList.add("loading-dot");
       } else {
