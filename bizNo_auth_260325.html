@@ -238,39 +238,27 @@
       return cleaned;
     }
 
-    function getAllowedTargetUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const rawTarget = (params.get("target") || "").trim();
+    function getAllowedDriveUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const rawDriveId = (params.get("driveId") || "").trim();
 
-      if (!rawTarget) return null;
+  if (!rawDriveId) return null;
 
-      try {
-        const url = new URL(rawTarget);
+  // 구글드라이브 파일 ID만 허용
+  if (!/^[a-zA-Z0-9_-]+$/.test(rawDriveId)) return null;
 
-        const isAllowedGoogleDriveFile =
-          url.protocol === "https:" &&
-          url.hostname === "drive.google.com" &&
-          /^\/file\/d\/[^/]+\/view$/.test(url.pathname);
-
-        if (isAllowedGoogleDriveFile) {
-          return url.toString();
-        }
-
-        return null;
-      } catch (e) {
-        return null;
-      }
-    }
+  return `https://drive.google.com/file/d/${rawDriveId}/view`;
+}
 
     function getRedirectUrl() {
-      const targetUrl = getAllowedTargetUrl();
-      if (targetUrl) return targetUrl;
+  const driveUrl = getAllowedDriveUrl();
+  if (driveUrl) return driveUrl;
 
-      const path = getGuidePath();
-      if (path) return GITBOOK_BASE_URL + path;
+  const path = getGuidePath();
+  if (path) return GITBOOK_BASE_URL + path;
 
-      return null;
-    }
+  return null;
+}
 
     function normalizeBizNo(value) {
       return value.replace(/[^0-9]/g, "");
